@@ -1,3 +1,6 @@
+import model.Automato;
+import model.Estado;
+
 public class Teste {
 	public static void main(String[] args) {
 		// Instancias do automato

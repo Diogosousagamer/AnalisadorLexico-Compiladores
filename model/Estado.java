@@ -1,4 +1,6 @@
-public class Estado{
+package model;
+
+public class Estado {
 	private int id;
 	private boolean ehFinal;
 	private boolean ehInicial;
