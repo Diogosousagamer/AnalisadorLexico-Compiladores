@@ -1,5 +1,5 @@
 /* ***************************************************************
-* Autores............: Davi Gabrielly Santos
+* Autores............: Davi Gabrielli Santos
                        Diogo Oliveira de Sousa
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
