@@ -17,6 +17,8 @@ import java.util.Hashtable;
 
 public class AnalisadorLexico {
 	private Automato automato;
+	private String[] palavrasReservadas;
+
 	// private Hashtable<> tabelaSimbolos;
 
 	public AnalisadorLexico() {
@@ -24,12 +26,20 @@ public class AnalisadorLexico {
 	}
 
 	private void inicializarAutomato() {
+		palavrasReservadas = new String[]{"absolute", "array", "begin", "case", "char", "const", "div", 
+		                                  "do", "dowto", "else", "end", "external", "file", "for", "forward", 
+		                                  "func", "function", "goto", "if", "implementation", "integer", "interface", 
+		                                  "interrupt", "label", "main", "nil", "of", "packed", "proc", "program", "real", 
+		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
+		                                  "until", "uses", "var", "while", "with", "xor"};
+
 		automato = new Automato();
+
 
 		// Estados e transicoes
 	}
 
-	public ArrayList<> analisarCodigo(String linha) {
-		ArrayList<TuplaLexema> conjuntoTuplas = new ArrayList<>();
+	public TuplaLexema analisarCodigo(String linha) {
+		return null;
 	}
 }
