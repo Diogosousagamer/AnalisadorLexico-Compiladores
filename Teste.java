@@ -21,12 +21,12 @@ public class Teste {
 		automato.addEstado(e2);
 
 		// Transicoes do automato
-		automato.addTransicao(e0, '0', e0);
-		automato.addTransicao(e0, '1', e1);
-		automato.addTransicao(e1, '0', e0);
-		automato.addTransicao(e1, '1', e2);
-		automato.addTransicao(e2, '0', e2);
-		automato.addTransicao(e2, '1', e1);
+		automato.addTransicao(0, '0', 0);
+		automato.addTransicao(0, '1', 1);
+		automato.addTransicao(1, '0', 0);
+		automato.addTransicao(1, '1', 2);
+		automato.addTransicao(2, '0', 2);
+		automato.addTransicao(2, '1', 1);
 
 		Estado estAtual = automato.funcaoDeTransicaoEstendida("0101011");
 

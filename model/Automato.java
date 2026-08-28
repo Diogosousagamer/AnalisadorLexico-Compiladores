@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 19/08/2026
-* Ultima alteracao...: 20/08/2026
+* Ultima alteracao...: 28/08/2026
 * Nome...............: Automato
 * Funcao.............: Classe que designa as operacoes de um automato.
                      
@@ -84,7 +84,8 @@ public class Automato {
 		if (estado.ehFinal()) {
 			estadosFinais.putIfAbsent(estado.getId(), estado); // Adiciona o estado na lista de estados finais
 		}
-		else if (estado.ehInicial()) { // Porem se o estado for inicial
+		
+		if (estado.ehInicial()) { // Se o estado for inicial
 			// Marca ele como o estado inicial do automato
       estadoInicial = estado;
 		}
@@ -105,17 +106,7 @@ public class Automato {
    ****************************************************************/
 
 	private boolean estadoJaExiste(int id) {
-		// Percorre a lista de valores contidos na tabela hash de estados
-		for (Estado e : estados.values()) {
-			// Retorna verdadeiro se um determinado estado possuir o identificador buscado
-			// (no caso, o estado ja existe)
-			if (e.getId() == id) {
-				return true;
-			}
-		}
-
-		// Retorna falso caso nenhuma correspondencia for encontrada
-		return false;
+		return estados.containsKey(id);
 	}
 
 	/*
@@ -128,18 +119,18 @@ public class Automato {
    * Retorno: void
    ****************************************************************/
 
-	public void addTransicao(Estado partida, char simbolo, Estado destino) {
+	public void addTransicao(int partida, char simbolo, int destino) {
     // Caso ja exista um estado com este Id
-		if (!estadoJaExiste(partida.getId())) {
+		if (!estadoJaExiste(partida)) {
 			throw new RuntimeException(); // Lanca excecao
 		}
 
 		// Acessa a tabela de transicoes do estado de partida
-		Hashtable<Character, Integer> transicoes = funcaoDeTransicao.get(partida.getId());
+		Hashtable<Character, Integer> transicoes = funcaoDeTransicao.get(partida);
 
 		// Adiciona uma nova transicao na tabela, onde o simbolo serve como chave 
 		// para acessar o estado de destino
-		transicoes.putIfAbsent(simbolo, destino.getId());
+		transicoes.putIfAbsent(simbolo, destino);
 	}
 
   /*
@@ -204,15 +195,24 @@ public class Automato {
    ****************************************************************/
 
 	private Estado buscarEstado(int id) {
-		// Percorre a lista de valores contidos na tabela hash de estados
-		for (Estado e : estados.values()) {
-			// Retorna o estado atual caso ele possuir o identificador buscado
-			if (e.getId() == id) {
-				return e;
-			}
-		}
+		return estados.get(id);
+	}
 
-		// Caso nenhuma correspondencia for encontrada, retorna nulo
-		return null;
+	public void definirEstadoInicial(int id) {
+		Estado e = buscarEstado(id);
+
+		if (e != null) {
+			e.setEhInicial(true);
+			estadoInicial = e;
+		}
+	}
+
+	public void definirEstadoFinal(int id) {
+		Estado e = buscarEstado(id);
+
+		if (e != null) {
+			e.setEhFinal(true);
+			estadosFinais.putIfAbsent(id, e);
+		}
 	}
 }

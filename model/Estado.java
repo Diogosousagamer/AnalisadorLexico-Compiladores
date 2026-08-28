@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 19/08/2026
-* Ultima alteracao...: 20/08/2026
+* Ultima alteracao...: 28/08/2026
 * Nome...............: Estado
 * Funcao.............: Classe que designa as operacoes de um estado em um automato.
                      
@@ -17,6 +17,12 @@ public class Estado {
 	private int id;
 	private boolean ehFinal;
 	private boolean ehInicial;
+
+    public Estado(int id) {
+        this.id = id;
+        this.ehInicial = false;
+        this.ehFinal = false;
+    }
 
 	/*
      * ***************************************************************
@@ -46,6 +52,10 @@ public class Estado {
     	return id;
 	}
 
+    public void setEhInicial(boolean ehInicial) {
+        this.ehInicial = ehInicial;
+    }
+
 	/*
      * ***************************************************************
      * Metodo: ehInicial
@@ -57,6 +67,10 @@ public class Estado {
 	public boolean ehInicial() {
     	return ehInicial;
 	}
+
+    public void setEhFinal(boolean ehFinal) {
+        this.ehFinal = ehFinal;
+    }
 
 	/*
      * ***************************************************************
