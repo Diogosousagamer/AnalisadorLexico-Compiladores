@@ -7,17 +7,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="391.0" prefWidth="700.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="180.0" layoutY="59.0" prefHeight="25.0" prefWidth="340.0" text="Compilador - Mini Pascal" textFill="WHITE">
+      <ImageView fitHeight="421.0" fitWidth="700.0" opacity="0.27" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/coding.gif" />
+         </image>
+      </ImageView>
+      <Label layoutX="123.0" layoutY="98.0" prefHeight="34.0" prefWidth="453.0" text="Compilador - Mini Pascal" textFill="WHITE">
          <font>
-            <Font name="VCR OSD Mono" size="24.0" />
+            <Font name="VCR OSD Mono" size="32.0" />
          </font>
       </Label>
-      <Button layoutX="278.0" layoutY="305.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="144.0" text="Enviar Arquivo">
+      <Label alignment="CENTER" layoutX="59.0" layoutY="151.0" lineSpacing="4.0" prefHeight="64.0" prefWidth="582.0" styleClass="descricao" stylesheets="@../util/menu.css" text="Seja bem-vindo ao compilador do Mini Pascal, uma versão simplificada da linguagem Pascal. Envie seu código no fomato .txt para ser realizada a compilação por meio da análise léxica." textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="245.0" layoutY="242.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="211.0" styleClass="botao-enviar" stylesheets="@../util/menu.css" text="Enviar Arquivo">
          <graphic>
-            <ImageView fitHeight="38.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/upload.png" />
                </image>

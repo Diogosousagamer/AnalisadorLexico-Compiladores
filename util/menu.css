@@ -1,0 +1,23 @@
+.botao-enviar {
+	-fx-background-color: #2bf080;
+	-fx-background-radius: 8px;
+	-fx-text-fill: white;
+	-fx-padding: 10px;
+	-fx-cursor: hand;
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-font-size: 17px;
+}
+
+.botao-enviar:hover {
+	-fx-background-color: #07b552;
+}
+
+.descricao {
+	-fx-text-fill: white;
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-font-size: 15px;
+}
+
+.imagem {
+	-fx-margin-right: 10px;
+}
