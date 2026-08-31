@@ -1,3 +1,8 @@
+.painel {
+	-fx-background-image: url('../img/coding.gif');
+	-fx-background-size: cover;
+}
+
 .botao-enviar {
 	-fx-background-color: #2bf080;
 	-fx-background-radius: 8px;

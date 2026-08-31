@@ -18,6 +18,7 @@ import java.util.Hashtable;
 public class AnalisadorLexico {
 	private Automato automato;
 	private String[] palavrasReservadas;
+	private int[] estadosFinais;
 
 	// private Hashtable<> tabelaSimbolos;
 
@@ -60,9 +61,9 @@ public class AnalisadorLexico {
 	private void inicializarEstados() {
 		automato.definirEstadoInicial(0);
 
-		int[] estadosFinais = {1, 2, 4, 7, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+		estadosFinais = new int[]{1, 2, 4, 7, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
 
-		for (int i = 0; i < estadosFinais.length; i++) {
+		for (int estado : estadosFinais) {
 			automato.definirEstadoFinal(estadosFinais[i]);
 		}
 	}
