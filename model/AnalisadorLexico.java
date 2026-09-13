@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 25/08/2026
-* Ultima alteracao...: 02/09/2026
+* Ultima alteracao...: 13/09/2026
 * Nome...............: AnalisadorLexico
 * Funcao.............: Classe que designa as operacoes do analisador lexico de um compilador.
                      
@@ -12,6 +12,8 @@
 
 package model;
 
+import controller.TelaPrincipalController;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -19,23 +21,27 @@ public class AnalisadorLexico {
 	// Variaveis e instancias
 	private Automato automato;
 	private String[] palavrasReservadas;
+	private String[] operadoresLogicos;
 	private int[] estadosFinais;
-
+	private TelaPrincipalController controller;
 	// private Hashtable<> tabelaSimbolos;
 	private Hashtable<Integer, Token> listaTokens;
 
-	public AnalisadorLexico() {
+	public AnalisadorLexico(TelaPrincipalController controller) {
+		this.controller = controller;
 		this.inicializarAutomato();
 	}
 
 	private void inicializarAutomato() {
 		// Inicializa o vetor de palavras reservadas
-		palavrasReservadas = new String[]{"absolute", "and", "array", "begin", "case", "char", "const", "div", 
+		palavrasReservadas = new String[]{"absolute", "array", "begin", "case", "char", "const", "div", 
 		                                  "do", "downto", "else", "end", "external", "file", "for", "forward", 
 		                                  "func", "function", "goto", "if", "implementation", "integer", "interface", 
-		                                  "interrupt", "label", "main", "nil", "not", "of", "or", "packed", "proc", "program", "real", 
+		                                  "interrupt", "label", "main", "nil", "of", "packed", "proc", "program", "real", 
 		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
-		                                  "until", "uses", "var", "while", "with", "xor"};
+		                                  "until", "uses", "var", "while", "with"};
+
+		operadoresLogicos = new String[]{"and", "or", "not", "xor"};
 
 		// Inicializa o automato
 		automato = new Automato();
@@ -91,6 +97,11 @@ public class AnalisadorLexico {
 		String simbolosEspeciais = "(;,)";
 		String operadoresAritmeticos = "+-*/%";
 		String operadoresRelacionais = "><=";
+
+		// Reconhecimento pro caractere vazio como parte de uma cadeia
+		automato.addTransicao(8, ' ', 10);
+		automato.addTransicao(12, ' ', 14);
+		automato.addTransicao(14, ' ', 14);
 
 		// Cria-se uma sequencia de transicoes para todos os caracteres verbais
 		for (char c : caracteresVerbais.toCharArray()) {
@@ -231,7 +242,91 @@ public class AnalisadorLexico {
 		listaTokens.putIfAbsent(26, Token.SIMBOLO_ESPECIAL);
 	}
 
-	public TuplaLexema analisarCodigo(String linha) {
-		return null;
+	public ArrayList<TuplaLexema> analisarCodigo(File f) {
+		String linha = "";
+		ArrayList<TuplaLexema> tuplas = new ArrayList<>();
+		LerArquivo leituraArquivo = new LerArquivo(f);
+		int tamanhoArquivo = leituraArquivo.tamanhoArquivo();
+
+		for (int i = 0; i < tamanhoArquivo; i++) {
+			linha = leituraArquivo.lerArquivo(i);
+			String lexema = "";
+			Estado estadoAnterior = automato.getEstadoInicial().copy();
+
+			if (linha != null) {
+				char[] simbolos = linha.toCharArray();
+				int contador = 0;
+
+				while (contador < simbolos.length) {
+					char simbolo = simbolos[contador];
+
+					if (simbolo == ' ' && estadoAnterior.ehInicial()) {
+						contador++;
+						continue;
+					}
+
+					Estado estado = automato.funcaoDeTransicao(simbolo);
+
+					boolean reconhecido = estado == null && estadoAnterior.ehFinal() && !lexema.isEmpty();
+					boolean temErro = estado == null && !estadoAnterior.ehFinal() && !lexema.isEmpty();
+					boolean computarLexema = estado != null || !estadoAnterior.ehFinal();
+
+					if (reconhecido) {
+						Token token = identificarToken(estadoAnterior.getId(), lexema);
+						TuplaLexema par = new TuplaLexema(token, lexema);
+						tuplas.add(par);
+
+						lexema = "";
+						estadoAnterior = automato.getEstadoInicial().copy();
+					}
+					else if (temErro) {
+						lexema = "";
+						estadoAnterior = automato.getEstadoInicial().copy();
+					}
+					else if (computarLexema) {
+						lexema += simbolo;
+						estadoAnterior = estado;
+						contador++;
+					}
+				}
+			}
+		}
+
+		return tuplas;
+	}
+
+	private Token identificarToken(int estado, String lexema) {
+		Token token = listaTokens.get(estado);
+
+		if (token == Token.IDENTIFICADOR) {
+			if (verificarPalavraReservada(lexema)) {
+				token = Token.PALAVRA_RESERVADA;
+			}
+			else if (verificarOperadorLogico(lexema)) {
+				token = Token.OPERADOR_LOGICO;
+			}
+		}
+
+		return token;
+	}
+
+	private boolean verificarPalavraReservada(String lexema) {
+		for (String p : palavrasReservadas) {
+			if (lexema.equals(p)) {
+				return true;
+			}
+		}
+
+		return false;
+	} 
+
+	private boolean verificarOperadorLogico(String lexema) {
+		for (String op : operadoresLogicos) {
+			if (lexema.equals(op)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

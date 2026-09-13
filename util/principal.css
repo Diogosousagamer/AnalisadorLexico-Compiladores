@@ -33,7 +33,6 @@
 
 .botao {
 	-fx-background-color: #2bf080;
-	-fx-background-radius: 15px;
 	-fx-cursor: hand;
 	-fx-font-family: 'VCR OSD Mono';
 	-fx-font-size: 13px;
@@ -42,4 +41,14 @@
 
 .botao:hover {
 	-fx-background-color: #07b552;
+}
+
+#abrir {
+	-fx-background-radius: 8px;
+	-fx-text-align: center;
+	-fx-padding: 5px;
+}
+
+#redondo {
+	-fx-background-radius: 15px;
 }

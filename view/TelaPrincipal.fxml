@@ -16,7 +16,7 @@
                <children>
                   <HBox alignment="CENTER" spacing="15.0">
                      <children>
-                        <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltar" prefHeight="32.0" prefWidth="34.0" styleClass="botao" stylesheets="@../util/principal.css" text="&lt;-" />
+                        <Button id="redondo" fx:id="btnVoltar" mnemonicParsing="false" onAction="#voltar" prefHeight="32.0" prefWidth="34.0" styleClass="botao" stylesheets="@../util/principal.css" text="&lt;-" />
                         <HBox alignment="CENTER" prefHeight="32.0" prefWidth="219.0">
                            <children>
                               <Label id="grande" stylesheets="@../util/principal.css" text="Resultados" />
@@ -41,6 +41,11 @@
                         <TextArea id="erros" fx:id="txtErros" editable="false" styleClass="caixaTexto" stylesheets="@../util/principal.css" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button id="abrir" fx:id="btnAbrirArquivo" disable="true" mnemonicParsing="false" onAction="#abrirArquivo" prefHeight="39.0" prefWidth="133.0" styleClass="botao" stylesheets="@../util/principal.css" text="Abrir Arquivo" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
 

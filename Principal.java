@@ -1,3 +1,15 @@
+/* ***************************************************************
+* Autores............: Davi Gabrielli Santos
+                       Diogo Oliveira de Sousa
+                       Gustavo Henrique Oliveira Fernandes
+* Matricula..........: 202410855 / 202411226 / 202410104
+* Inicio.............: 02/09/2026
+* Ultima alteracao...: 02/09/2026
+* Nome...............: Compilador - Mini Pascal (Principal)
+* Funcao.............: Classe que designa as operacoes do analisador lexico de um compilador.
+                     
+*************************************************************** */
+
 import controller.*;
 import java.io.IOException;
 import javafx.application.Application;

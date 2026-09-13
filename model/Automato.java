@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 19/08/2026
-* Ultima alteracao...: 28/08/2026
+* Ultima alteracao...: 13/09/2026
 * Nome...............: Automato
 * Funcao.............: Classe que designa as operacoes de um automato.
                      
@@ -23,6 +23,7 @@ public class Automato {
 	private Hashtable<Integer, Estado> estadosFinais;
 	private Hashtable<Integer, Hashtable<Character, Integer>> funcaoDeTransicao; //<Id, lista de transicoes>
 	private Estado estadoInicial;
+	private Estado estadoAtual;
 
 	/*
    * ***************************************************************
@@ -133,6 +134,13 @@ public class Automato {
 		transicoes.putIfAbsent(simbolo, destino);
 	}
 
+	public Estado funcaoDeTransicao(char simbolo) {
+		if (estadoAtual == null) estadoAtual = estadoInicial;
+		estadoAtual = buscarEstado(funcaoDeTransicao.get(estadoAtual.getId()).get(simbolo));
+
+		return estadoAtual;
+	}
+
   /*
    * ***************************************************************
    * Metodo: funcaoDeTransicaoEstendida
@@ -214,5 +222,9 @@ public class Automato {
 			e.setEhFinal(true);
 			estadosFinais.putIfAbsent(id, e);
 		}
+	}
+
+	public Estado getEstadoInicial() {
+		return estadoInicial;
 	}
 }

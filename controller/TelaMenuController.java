@@ -1,3 +1,15 @@
+/* ***************************************************************
+* Autores............: Davi Gabrielli Santos
+                       Diogo Oliveira de Sousa
+                       Gustavo Henrique Oliveira Fernandes
+* Matricula..........: 202410855 / 202411226 / 202410104
+* Inicio.............: 02/09/2026
+* Ultima alteracao...: 02/09/2026
+* Nome...............: TelaMenuController
+* Funcao.............: Classe que gerencia as operacoes da TelaMenu.
+                     
+*************************************************************** */
+
 package controller;
 
 import java.io.File;
@@ -14,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class TelaMenuController {
+	// Componentes da interface
 	@FXML private Button btnEnviarArquivo;
 
 	@FXML
