@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 25/08/2026
-* Ultima alteracao...: 13/09/2026
+* Ultima alteracao...: 15/09/2026
 * Nome...............: AnalisadorLexico
 * Funcao.............: Classe que designa as operacoes do analisador lexico de um compilador.
                      
@@ -71,7 +71,7 @@ public class AnalisadorLexico {
 	private void inicializarEstados() {
 		automato.definirEstadoInicial(0);
 
-		estadosFinais = new int[]{1, 2, 4, 7, 11, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+		estadosFinais = new int[]{1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 		for (int estado : estadosFinais) {
 			automato.definirEstadoFinal(estado);
@@ -127,6 +127,7 @@ public class AnalisadorLexico {
 			automato.addTransicao(2, num, 2);
 
 			// Transicao necessaria para numeros reais
+			automato.addTransicao(3, num, 4);
 			automato.addTransicao(4, num, 4);
 
 			// Transicoes necessarias para notacao cientifica
@@ -260,7 +261,7 @@ public class AnalisadorLexico {
 				while (contador < simbolos.length) {
 					char simbolo = simbolos[contador];
 
-					if (simbolo == ' ' && estadoAnterior.ehInicial()) {
+					if (Character.isWhitespace(simbolo) && estadoAnterior.ehInicial()) {
 						contador++;
 						continue;
 					}
@@ -269,7 +270,7 @@ public class AnalisadorLexico {
 
 					boolean reconhecido = estado == null && estadoAnterior.ehFinal() && !lexema.isEmpty();
 					boolean temErro = estado == null && !estadoAnterior.ehFinal() && !lexema.isEmpty();
-					boolean computarLexema = estado != null || !estadoAnterior.ehFinal();
+					boolean computarLexema = estado != null;
 
 					if (reconhecido) {
 						Token token = identificarToken(estadoAnterior.getId(), lexema);
@@ -282,6 +283,7 @@ public class AnalisadorLexico {
 					else if (temErro) {
 						lexema = "";
 						estadoAnterior = automato.getEstadoInicial().copy();
+						contador++;
 					}
 					else if (computarLexema) {
 						lexema += simbolo;

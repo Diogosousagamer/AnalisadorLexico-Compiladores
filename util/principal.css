@@ -13,13 +13,13 @@
 	-fx-background-color: white;
 	-fx-background-radius: 8px;
 	-fx-padding: 8px;
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-font-size: 15px;
 }
 
 .caixaTexto .content {
 	-fx-background-color: white;
 	-fx-background-radius: 8px;
-	-fx-font-family: 'VCR OSD Mono';
-	-fx-font-size: 15px;
 	-fx-padding: 8px;
 }
 

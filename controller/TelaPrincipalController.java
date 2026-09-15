@@ -13,11 +13,14 @@
 package controller;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,7 +78,23 @@ public class TelaPrincipalController {
 		this.codigo = codigo;
 		analisadorLexico = new AnalisadorLexico(this);
 
-		realizarAnalise();
+		Platform.runLater(() -> {
+			escreverCodigo();
+			realizarAnalise();
+		});
+	}
+
+	private void escreverCodigo() {
+		try (BufferedReader br = new BufferedReader(new FileReader(codigo))) {
+			String linha = "";
+
+			while ((linha = br.readLine()) != null) {
+				txtCodigo.appendText(linha + "\n");
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void realizarAnalise() {
@@ -85,7 +104,6 @@ public class TelaPrincipalController {
 			for (TuplaLexema t : tuplas) {
 				String tupla = "<" + t.getLexema() + ", " + obterSimboloToken(t.getToken()) + ">";
 				txtResultados.appendText(tupla + "\n");
-				dormir();
 			}
 
 			escreverArquivoSaida();
@@ -114,8 +132,10 @@ public class TelaPrincipalController {
 	private String obterSimboloToken(Token token) {
 		switch (token) {
 			case IDENTIFICADOR:
-			case PALAVRA_RESERVADA:
 				return "id";
+
+			case PALAVRA_RESERVADA:
+				return "palavra_reservada";
 
 			case CONSTANTE_NUMERICA:
 				return "num";
@@ -137,14 +157,5 @@ public class TelaPrincipalController {
 		}
 
 		return "";
-	}
-
-	private void dormir() {
-		try {
-			Thread.sleep(500);
-		}
-		catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
 	}
 }

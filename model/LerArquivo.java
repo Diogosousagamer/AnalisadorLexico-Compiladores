@@ -45,6 +45,7 @@ public class LerArquivo {
         
         while (sc.hasNextLine()) {
             tamanho++;
+            sc.nextLine();
         }
         
         sc.close();

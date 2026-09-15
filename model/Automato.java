@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 19/08/2026
-* Ultima alteracao...: 13/09/2026
+* Ultima alteracao...: 15/09/2026
 * Nome...............: Automato
 * Funcao.............: Classe que designa as operacoes de um automato.
                      
@@ -134,9 +134,25 @@ public class Automato {
 		transicoes.putIfAbsent(simbolo, destino);
 	}
 
+	/*
+   * ***************************************************************
+   * Metodo: funcaoDeTransicao
+   * Funcao: computa um simbolo do alfabeto atraves das funcoes de transicao,
+   			 verificando se ele eh reconhecido pelo automato
+   * Parametros: char simbolo - simbolo a ser computado
+   * Retorno: Estado
+   ****************************************************************/
+
 	public Estado funcaoDeTransicao(char simbolo) {
 		if (estadoAtual == null) estadoAtual = estadoInicial;
-		estadoAtual = buscarEstado(funcaoDeTransicao.get(estadoAtual.getId()).get(simbolo));
+		Hashtable<Character, Integer> transicoes = funcaoDeTransicao.get(estadoAtual.getId());
+
+		if (transicoes == null) {
+			estadoAtual = null;
+		} 
+
+		Integer idEstado = transicoes.get(simbolo);
+		estadoAtual = (idEstado == null) ? null : buscarEstado(idEstado);
 
 		return estadoAtual;
 	}

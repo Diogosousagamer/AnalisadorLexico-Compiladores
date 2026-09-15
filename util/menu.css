@@ -26,3 +26,8 @@
 .imagem {
 	-fx-margin-right: 10px;
 }
+
+.titulo {
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-font-size: 32px;
+}
