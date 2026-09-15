@@ -1,0 +1,54 @@
+.painel {
+	-fx-background-image: url('../img/coding.gif');
+	-fx-background-size: cover;
+}
+
+.label {
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-text-fill: white;
+	-fx-font-size: 20px;
+}
+
+.caixaTexto {
+	-fx-background-color: white;
+	-fx-background-radius: 8px;
+	-fx-padding: 8px;
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-font-size: 15px;
+}
+
+.caixaTexto .content {
+	-fx-background-color: white;
+	-fx-background-radius: 8px;
+	-fx-padding: 8px;
+}
+
+.caixaTexto .viewport {
+	-fx-background-color: transparent;
+}
+
+#erros {
+	-fx-text-fill: #ff0000;
+}
+
+.botao {
+	-fx-background-color: #2bf080;
+	-fx-cursor: hand;
+	-fx-font-family: 'VCR OSD Mono';
+	-fx-font-size: 13px;
+	-fx-text-fill: white;
+}
+
+.botao:hover {
+	-fx-background-color: #07b552;
+}
+
+#abrir {
+	-fx-background-radius: 8px;
+	-fx-text-align: center;
+	-fx-padding: 5px;
+}
+
+#redondo {
+	-fx-background-radius: 15px;
+}
