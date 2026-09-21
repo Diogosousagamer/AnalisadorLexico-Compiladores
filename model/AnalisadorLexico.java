@@ -20,12 +20,18 @@ import java.util.Hashtable;
 public class AnalisadorLexico {
 	// Variaveis e instancias
 	private Automato automato;
-	private String[] palavrasReservadas;
-	private String[] operadoresLogicos;
-	private int[] estadosFinais;
 	private TelaPrincipalController controller;
 	// private Hashtable<> tabelaSimbolos;
 	private Hashtable<Integer, Token> listaTokens;
+
+	private final String[] palavrasReservadas = {"absolute", "array", "begin", "case", "char", "const", "div", 
+		                                  "do", "downto", "else", "end", "external", "file", "for", "forward", 
+		                                  "func", "function", "goto", "if", "implementation", "integer", "interface", 
+		                                  "interrupt", "label", "main", "nil", "of", "packed", "proc", "program", "real", 
+		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
+		                                  "until", "uses", "var", "while", "with"};
+	private final String[] operadoresLogicos = {"and", "or", "not", "xor"};
+	private final int[] estadosFinais = {1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 	public AnalisadorLexico(TelaPrincipalController controller) {
 		this.controller = controller;
@@ -33,19 +39,8 @@ public class AnalisadorLexico {
 	}
 
 	private void inicializarAutomato() {
-		// Inicializa o vetor de palavras reservadas
-		palavrasReservadas = new String[]{"absolute", "array", "begin", "case", "char", "const", "div", 
-		                                  "do", "downto", "else", "end", "external", "file", "for", "forward", 
-		                                  "func", "function", "goto", "if", "implementation", "integer", "interface", 
-		                                  "interrupt", "label", "main", "nil", "of", "packed", "proc", "program", "real", 
-		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
-		                                  "until", "uses", "var", "while", "with"};
-
-		operadoresLogicos = new String[]{"and", "or", "not", "xor"};
-
 		// Inicializa o automato
 		automato = new Automato();
-
 
 		// Sao criados, ao todo, vinte e cinco estados para o automato do analisador lexico
 		criarEstados(27);
@@ -70,9 +65,7 @@ public class AnalisadorLexico {
 
 	private void inicializarEstados() {
 		automato.definirEstadoInicial(0);
-
-		estadosFinais = new int[]{1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-
+		
 		for (int estado : estadosFinais) {
 			automato.definirEstadoFinal(estado);
 		}

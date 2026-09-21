@@ -118,7 +118,7 @@ public class TelaPrincipalController {
 			arquivoSaida = new File(codigo.getParent(), saida);
 
 			if (arquivoSaida != null) {
-				try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida))) {
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida, true))) {
 					bw.write(tuplas);
 					btnAbrirArquivo.setDisable(false);
 				}
