@@ -222,24 +222,49 @@ public class Automato {
 		return estados.get(id);
 	}
 
+	/*
+   * ***************************************************************
+   * Metodo: definirEstadoInicial
+   * Funcao: define qual eh o estado inicial com base no id
+   * Parametros: int id - identificador do estado a ser buscado
+   * Retorno: void
+   ****************************************************************/
 	public void definirEstadoInicial(int id) {
+		// Encontra o estado com base no id
 		Estado e = buscarEstado(id);
 
+		//Define como inicial caso nao seja nulo
 		if (e != null) {
 			e.setEhInicial(true);
 			estadoInicial = e;
 		}
 	}
 
+	/*
+   * ***************************************************************
+   * Metodo: definirEstadoFinal
+   * Funcao: define um estado final com base no id
+   * Parametros: int id - identificador do estado a ser buscado
+   * Retorno: void
+   ****************************************************************/
 	public void definirEstadoFinal(int id) {
+		// Encontra o estado com base no id
 		Estado e = buscarEstado(id);
 
+		//Define como final caso nao seja nulo
 		if (e != null) {
 			e.setEhFinal(true);
 			estadosFinais.putIfAbsent(id, e);
 		}
 	}
 
+	/*
+   * ***************************************************************
+   * Metodo: getEstadoInicial
+   * Funcao: retorna o estado inicial do automato
+   * Parametros: nenhum
+   * Retorno: Estado
+   ****************************************************************/
 	public Estado getEstadoInicial() {
 		return estadoInicial;
 	}
