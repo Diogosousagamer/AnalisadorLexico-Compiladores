@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 02/09/2026
-* Ultima alteracao...: 13/09/2026
+* Ultima alteracao...: 21/09/2026
 * Nome...............: TelaPrincipalController
 * Funcao.............: Classe que gerencia as operacoes da TelaPrincipal.
                      
@@ -118,7 +118,7 @@ public class TelaPrincipalController {
 			arquivoSaida = new File(codigo.getParent(), saida);
 
 			if (arquivoSaida != null) {
-				try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida, true))) {
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida))) {
 					bw.write(tuplas);
 					btnAbrirArquivo.setDisable(false);
 				}

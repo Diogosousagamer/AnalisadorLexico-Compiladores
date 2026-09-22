@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 15/09/2026
-* Ultima alteracao...: 15/09/2026
+* Ultima alteracao...: 21/09/2026
 * Nome...............: Compilador - Mini Pascal (Principal)
 * Funcao.............: Executa a aplicacao.
                      

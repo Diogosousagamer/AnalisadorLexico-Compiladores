@@ -1,3 +1,15 @@
+/* ***************************************************************
+* Autores............: Davi Gabrielli Santos
+                       Diogo Oliveira de Sousa
+                       Gustavo Henrique Oliveira Fernandes
+* Matricula..........: 202410855 / 202411226 / 202410104
+* Inicio.............: 15/09/2026
+* Ultima alteracao...: 21/09/2026
+* Nome...............: LerArquivo
+* Funcao.............: Classe que realiza a leitura de um arquivo .txt.
+                     
+*************************************************************** */
+
 package model;
 
 import java.io.File;
@@ -5,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class LerArquivo {
+    // Arquivo a ser lido
 	private File arquivo;
 
 	public LerArquivo(File arquivo) {

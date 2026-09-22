@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 25/08/2026
-* Ultima alteracao...: 15/09/2026
+* Ultima alteracao...: 21/09/2026
 * Nome...............: AnalisadorLexico
 * Funcao.............: Classe que designa as operacoes do analisador lexico de um compilador.
                      
@@ -31,7 +31,7 @@ public class AnalisadorLexico {
 		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
 		                                  "until", "uses", "var", "while", "with"};
 	private final String[] operadoresLogicos = {"and", "or", "not", "xor"};
-	private final int[] estadosFinais = {1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+	private final int[] estadosFinais = {1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
 
 	public AnalisadorLexico(TelaPrincipalController controller) {
 		this.controller = controller;
@@ -43,7 +43,7 @@ public class AnalisadorLexico {
 		automato = new Automato();
 
 		// Sao criados, ao todo, vinte e cinco estados para o automato do analisador lexico
-		criarEstados(27);
+		criarEstados(32);
 
 		// Os estados iniciais e finais do automato sao inicializados
 		inicializarEstados();
@@ -54,6 +54,7 @@ public class AnalisadorLexico {
 		// Cria as transicoes necessarias para o funcionamento do automato
 		criarTransicoes();
 
+		// Inicializa os tokens reconhecidos pelo automato do analisador lexico
 		inicializarTokens();
 	}
 
@@ -88,7 +89,7 @@ public class AnalisadorLexico {
 		String caracteresVerbais = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz";
 		String numeros = "0123456789";
 		String simbolosEspeciais = "(;,)";
-		String operadoresAritmeticos = "+-*/%";
+		String operadoresAritmeticos = "+-*%";
 		String operadoresRelacionais = "><=";
 
 		// Reconhecimento pro caractere vazio como parte de uma cadeia
@@ -108,6 +109,11 @@ public class AnalisadorLexico {
 			// Transicao necessaria para string
 			automato.addTransicao(12, c, 14);
 			automato.addTransicao(14, c, 14);
+
+			// Transicao necessaria para comentarios
+			automato.addTransicao(28, c, 28);
+			automato.addTransicao(29, c, 28);
+			automato.addTransicao(30, c, 28);
 		}
 
 		// Cria-se uma sequencia de transicoes para todos os numeros
@@ -134,6 +140,11 @@ public class AnalisadorLexico {
 			// Transicoes necessarias para string
 			automato.addTransicao(12, num, 14);
 			automato.addTransicao(14, num, 14);
+
+			// Transicoes necessarias para comentarios
+			automato.addTransicao(28, num, 28);
+			automato.addTransicao(29, num, 28);
+			automato.addTransicao(30, num, 28);
 		}
 
 		// Transicao necessaria para delimitar uma casa decimal
@@ -171,6 +182,10 @@ public class AnalisadorLexico {
 			// Transicao necessaria para ser reconhecido como parte de uma string
 			automato.addTransicao(12, s, 14);
 			automato.addTransicao(14, s, 14);
+
+			automato.addTransicao(28, s, 28);
+			automato.addTransicao(29, s, 28);
+			automato.addTransicao(30, s, 28);
 		}
 
 		// Cria-se uma sequencia de transicoes para todos os operadores aritmeticos
@@ -184,6 +199,12 @@ public class AnalisadorLexico {
 			// Transicoes necessarias para o reconhecimento como parte de uma string
 			automato.addTransicao(12, op, 14);
 			automato.addTransicao(14, op, 14);
+
+			if (op != '*') {
+				automato.addTransicao(28, op, 28);
+				automato.addTransicao(29, op, 28);
+				automato.addTransicao(30, op, 28);
+			}
 		}
 
 		// Cria-se uma sequencia de transicoes para todos os operadores aritmeticos
@@ -194,6 +215,10 @@ public class AnalisadorLexico {
 			// Transicoes necessarias para o reconhecimento como parte de uma string
 			automato.addTransicao(12, r, 14);
 			automato.addTransicao(14, r, 14);
+
+			automato.addTransicao(28, r, 28);
+			automato.addTransicao(29, r, 28);
+			automato.addTransicao(30, r, 28);
 		}
 
 		// Transicoes necesarias para o reconhecimento dos operadores relacionais
@@ -212,6 +237,26 @@ public class AnalisadorLexico {
 		// Transicoes necessarias para o reconhecimento do operador de atribuicao (=)
 		automato.addTransicao(0, ':', 24);
 		automato.addTransicao(24, '=', 25);
+
+		automato.addTransicao(28, '\'', 28);
+		automato.addTransicao(29, '\'', 28);
+		automato.addTransicao(30, '\'', 28);
+
+		automato.addTransicao(28, '"', 28);
+		automato.addTransicao(29, '"', 28);
+		automato.addTransicao(30, '"', 28);
+
+		automato.addTransicao(28, ' ', 28);
+		automato.addTransicao(29, ' ', 28);
+		automato.addTransicao(30, ' ', 28);
+
+		// Transicoes necessarias para o tratamento de comentarios
+		automato.addTransicao(0, '/', 27);
+		automato.addTransicao(27, '*', 28);
+		automato.addTransicao(28, '/', 29);
+		automato.addTransicao(29, '*', 30);
+		automato.addTransicao(28, '*', 30);
+		automato.addTransicao(30, '/', 31);
 	}
 
 	private void inicializarTokens() {
@@ -234,6 +279,7 @@ public class AnalisadorLexico {
 		listaTokens.putIfAbsent(24, Token.SIMBOLO_ESPECIAL);
 		listaTokens.putIfAbsent(25, Token.OPERADOR_ATRIBUICAO);
 		listaTokens.putIfAbsent(26, Token.SIMBOLO_ESPECIAL);
+		listaTokens.putIfAbsent(27, Token.OPERADOR_ARITMETICO);
 	}
 
 	public ArrayList<TuplaLexema> analisarCodigo(File f) {
@@ -242,12 +288,14 @@ public class AnalisadorLexico {
 		LerArquivo leituraArquivo = new LerArquivo(f);
 		int tamanhoArquivo = leituraArquivo.tamanhoArquivo();
 
+		String lexema = "";
+		Estado estadoAnterior = automato.getEstadoInicial().copy();
+
 		for (int i = 0; i < tamanhoArquivo; i++) {
 			linha = leituraArquivo.lerArquivo(i);
-			String lexema = "";
-			Estado estadoAnterior = automato.getEstadoInicial().copy();
 
 			if (linha != null) {
+				linha += "~";
 				char[] simbolos = linha.toCharArray();
 				int contador = 0;
 
@@ -281,6 +329,9 @@ public class AnalisadorLexico {
 					else if (computarLexema) {
 						lexema += simbolo;
 						estadoAnterior = estado;
+						contador++;
+					}
+					else {
 						contador++;
 					}
 				}

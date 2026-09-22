@@ -2,6 +2,7 @@ program teste;
 var x,y: integer;
 const pi := 3.1416;
 
+/* inicio do programa */
 begin 
 	read(x);
 	if (x > y) then
