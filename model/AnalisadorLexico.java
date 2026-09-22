@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 25/08/2026
-* Ultima alteracao...: 21/09/2026
+* Ultima alteracao...: 22/09/2026
 * Nome...............: AnalisadorLexico
 * Funcao.............: Classe que designa as operacoes do analisador lexico de um compilador.
                      
@@ -246,10 +246,6 @@ public class AnalisadorLexico {
 		automato.addTransicao(29, '"', 28);
 		automato.addTransicao(30, '"', 28);
 
-		automato.addTransicao(28, ' ', 28);
-		automato.addTransicao(29, ' ', 28);
-		automato.addTransicao(30, ' ', 28);
-
 		// Transicoes necessarias para o tratamento de comentarios
 		automato.addTransicao(0, '/', 27);
 		automato.addTransicao(27, '*', 28);
@@ -257,6 +253,10 @@ public class AnalisadorLexico {
 		automato.addTransicao(29, '*', 30);
 		automato.addTransicao(28, '*', 30);
 		automato.addTransicao(30, '/', 31);
+		automato.addTransicao(28, ' ', 28);
+		automato.addTransicao(28, ' ', 29);
+		automato.addTransicao(29, ' ', 28);
+		automato.addTransicao(30, ' ', 28);
 	}
 
 	private void inicializarTokens() {
@@ -295,7 +295,7 @@ public class AnalisadorLexico {
 			linha = leituraArquivo.lerArquivo(i);
 
 			if (linha != null) {
-				linha += "~";
+				linha += " ";
 				char[] simbolos = linha.toCharArray();
 				int contador = 0;
 
@@ -331,9 +331,7 @@ public class AnalisadorLexico {
 						estadoAnterior = estado;
 						contador++;
 					}
-					else {
-						contador++;
-					}
+					
 				}
 			}
 		}

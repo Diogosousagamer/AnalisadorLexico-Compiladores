@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="391.0" prefWidth="700.0" styleClass="painel" stylesheets="@../util/menu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TelaMenuController">
+<AnchorPane prefHeight="391.0" prefWidth="700.0" styleClass="painel" stylesheets="@../util/menu.css" xmlns="http://javafx.com/javafx/8.0.431" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TelaMenuController">
    <children>
       <AnchorPane prefHeight="391.0" prefWidth="700.0" style="-fx-background-color: rgba(0, 0, 0, 0.73);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <VBox alignment="CENTER" layoutX="58.0" layoutY="96.0" maxHeight="500.0" maxWidth="800.0" prefHeight="200.0" prefWidth="585.0" spacing="10.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="96.0">
