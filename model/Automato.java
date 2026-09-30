@@ -229,11 +229,12 @@ public class Automato {
    * Parametros: int id - identificador do estado a ser buscado
    * Retorno: void
    ****************************************************************/
+
 	public void definirEstadoInicial(int id) {
 		// Encontra o estado com base no id
 		Estado e = buscarEstado(id);
 
-		//Define como inicial caso nao seja nulo
+		// Define como inicial caso nao seja nulo
 		if (e != null) {
 			e.setEhInicial(true);
 			estadoInicial = e;

@@ -169,6 +169,8 @@ public class AnalisadorLexico {
 		automato.addTransicao(13, '"', 14);
 		automato.addTransicao(13, '\\', 14);
 		automato.addTransicao(14, '"', 15);
+		automato.addTransicao(12, ' ', 14);
+		automato.addTransicao(14, ' ', 14);
 
 		// Cria-se uma sequencia de transicoes para todos os simbolos especiais
 		for (char s : simbolosEspeciais.toCharArray()) {

@@ -47,6 +47,14 @@ public class TelaPrincipalController {
 	private File codigo;
 	private File arquivoSaida;
 
+	/*
+     * ***************************************************************
+     * Metodo: voltar
+     * Funcao: retorna para a TelaInicial
+     * Parametros: ActionEvent event - evento gerado ao clicar no botao
+     * Retorno: void
+     ****************************************************************/
+
 	@FXML
 	private void voltar(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
@@ -56,9 +64,18 @@ public class TelaPrincipalController {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
 
+		// Mantem a tela maximizada
 		stage.setMaximized(false);
 		stage.setMaximized(true);
 	}
+
+	/*
+     * ***************************************************************
+     * Metodo: abrirArquivo
+     * Funcao: abre o arquivo contendo os lexemas e tokens do programa
+     * Parametros: ActionEvent event - evento gerado ao clicar no botao
+     * Retorno: void
+     ****************************************************************/
 
 	@FXML
 	private void abrirArquivo(ActionEvent event) {
@@ -74,6 +91,14 @@ public class TelaPrincipalController {
 		}
 	}
 
+	/*
+     * ***************************************************************
+     * Metodo: carregarArquivo
+     * Funcao: carrega um arquivo para ser compilado
+     * Parametros: File codigo - codigo a ser compilado
+     * Retorno: void
+     ****************************************************************/
+
 	public void carregarArquivo(File codigo) {
 		this.codigo = codigo;
 		analisadorLexico = new AnalisadorLexico(this);
@@ -83,6 +108,14 @@ public class TelaPrincipalController {
 			realizarAnalise();
 		});
 	}
+
+	/*
+     * ***************************************************************
+     * Metodo: escreverCodigo
+     * Funcao: insere o codigo contido no arquivo dentro do txtCodigo
+     * Parametros: nenhum parametro foi definido para esta funcao
+     * Retorno: void
+     ****************************************************************/
 
 	private void escreverCodigo() {
 		try (BufferedReader br = new BufferedReader(new FileReader(codigo))) {
@@ -97,6 +130,14 @@ public class TelaPrincipalController {
 		}
 	}
 
+	/*
+     * ***************************************************************
+     * Metodo: realizarAnalise
+     * Funcao: realiza a analise do codigo
+     * Parametros: nenhum parametro foi definido para esta funcao
+     * Retorno: void
+     ****************************************************************/
+
 	private void realizarAnalise() {
 		ArrayList<TuplaLexema> tuplas = analisadorLexico.analisarCodigo(codigo);
 
@@ -109,6 +150,14 @@ public class TelaPrincipalController {
 			escreverArquivoSaida();
 		}
 	}
+
+	/*
+     * ***************************************************************
+     * Metodo: escreverArquivoSaida
+     * Funcao: gera um arquivo contendo a analise completa do codigo
+     * Parametros: nenhum parametro foi definido para esta funcao
+     * Retorno: void
+     ****************************************************************/
 
 	private void escreverArquivoSaida() {
 		String tuplas = txtResultados.getText();
@@ -128,6 +177,14 @@ public class TelaPrincipalController {
 			}
 		}
 	}
+
+	/*
+     * ***************************************************************
+     * Metodo: obterSimboloToken
+     * Funcao: retorna uma abreviacao correspondente ao token
+     * Parametros: Token token - token 
+     * Retorno: String
+     ****************************************************************/
 
 	private String obterSimboloToken(Token token) {
 		switch (token) {
