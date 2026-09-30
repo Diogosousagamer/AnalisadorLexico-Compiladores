@@ -37,6 +37,7 @@ import model.TuplaLexema;
 public class TelaPrincipalController {
 	// Componentes da interface
 	@FXML private Button btnAbrirArquivo;
+	@FXML private Button btnExcluirArquivo;
 	@FXML private Button btnVoltar;
 	@FXML private TextArea txtCodigo;
 	@FXML private TextArea txtErros;
@@ -88,6 +89,18 @@ public class TelaPrincipalController {
 			catch (IOException e) {
 				e.printStackTrace();
 			}	
+		}
+	}
+
+	@FXML
+	private void excluirArquivo(ActionEvent event) {
+		try {
+			if (arquivoSaida.exists() && arquivoSaida.delete()) {
+				voltar(event);
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -170,6 +183,7 @@ public class TelaPrincipalController {
 				try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida))) {
 					bw.write(tuplas);
 					btnAbrirArquivo.setDisable(false);
+					btnExcluirArquivo.setDisable(false);
 				}
 				catch (IOException e) {
 					e.printStackTrace();

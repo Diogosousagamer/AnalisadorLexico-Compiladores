@@ -49,6 +49,17 @@
 	-fx-padding: 5px;
 }
 
+#excluir {
+	-fx-background-color: #ff0000;
+	-fx-background-radius: 8px;
+	-fx-text-align: center;
+	-fx-padding: 5px;
+}
+
+#excluir:hover {
+	-fx-background-color: #a80818;
+}
+
 #redondo {
 	-fx-background-radius: 15px;
 }
