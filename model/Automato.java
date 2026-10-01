@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 19/08/2026
-* Ultima alteracao...: 15/09/2026
+* Ultima alteracao...: 30/09/2026
 * Nome...............: Automato
 * Funcao.............: Classe que designa as operacoes de um automato.
                      
@@ -144,16 +144,24 @@ public class Automato {
    ****************************************************************/
 
 	public Estado funcaoDeTransicao(char simbolo) {
+		// Inicializa o estado atual como estado inicial se nao tiver sido definido anteriormente
 		if (estadoAtual == null) estadoAtual = estadoInicial;
+
+		// Obtem a lista de transicoes do estado atual
 		Hashtable<Character, Integer> transicoes = funcaoDeTransicao.get(estadoAtual.getId());
 
+		// O estado atual se torna nulo se a tabela de transicoes nao tiver sido inicializada
 		if (transicoes == null) {
 			estadoAtual = null;
 		} 
 
+		// Busca o identificador do estado a partir da transicao correspondente
 		Integer idEstado = transicoes.get(simbolo);
+
+		// Usa o identificador para encontrar o estado
 		estadoAtual = (idEstado == null) ? null : buscarEstado(idEstado);
 
+		// Retorna o estado atual
 		return estadoAtual;
 	}
 
@@ -248,6 +256,7 @@ public class Automato {
    * Parametros: int id - identificador do estado a ser buscado
    * Retorno: void
    ****************************************************************/
+
 	public void definirEstadoFinal(int id) {
 		// Encontra o estado com base no id
 		Estado e = buscarEstado(id);

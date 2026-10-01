@@ -58,7 +58,15 @@ public class Estado {
 	
 	public int getId() {
     	return id;
-	}
+	}  
+
+    /*
+     * ***************************************************************
+     * Metodo: setEhInicial
+     * Funcao: define se o estado eh inicial
+     * Parametros: boolean ehInicial - valor a ser definido
+     * Retorno: void
+     ****************************************************************/
 
     public void setEhInicial(boolean ehInicial) {
         this.ehInicial = ehInicial;
@@ -76,6 +84,14 @@ public class Estado {
     	return ehInicial;
 	}
 
+    /*
+     * ***************************************************************
+     * Metodo: setEhFinal
+     * Funcao: define se o estado eh final
+     * Parametros: boolean ehFinal - valor a ser definido
+     * Retorno: void
+     ****************************************************************/
+
     public void setEhFinal(boolean ehFinal) {
         this.ehFinal = ehFinal;
     }
@@ -91,6 +107,14 @@ public class Estado {
 	public boolean ehFinal() {
     	return ehFinal;
 	}
+
+    /*
+     * ***************************************************************
+     * Metodo: copy
+     * Funcao: retorna uma copia separada do estado atual
+     * Parametros: nenhum parametro foi definido para esta funcao
+     * Retorno: Estado
+     ****************************************************************/
 
     public Estado copy() {
         return new Estado(this.id, this.ehInicial, this.ehFinal);

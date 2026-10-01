@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 02/09/2026
-* Ultima alteracao...: 21/09/2026
+* Ultima alteracao...: 30/09/2026
 * Nome...............: TelaPrincipalController
 * Funcao.............: Classe que gerencia as operacoes da TelaPrincipal.
                      
@@ -48,20 +48,14 @@ public class TelaPrincipalController {
 	private File codigo;
 	private File arquivoSaida;
 
-	/*
-     * ***************************************************************
-     * Metodo: voltar
-     * Funcao: retorna para a TelaInicial
-     * Parametros: ActionEvent event - evento gerado ao clicar no botao
-     * Retorno: void
-     ****************************************************************/
-
 	@FXML
 	private void voltar(ActionEvent event) throws IOException {
+		// Carrega o arquivo FXML da TelaPrincipal
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
 		Parent root = loader.load();
 		Scene scene = new Scene(root);
 
+		// Obtem a janela e troca a cena (tela)
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
 
@@ -80,26 +74,41 @@ public class TelaPrincipalController {
 
 	@FXML
 	private void abrirArquivo(ActionEvent event) {
+		// Se o arquivo de saida nao for nulo e existir
 		if (arquivoSaida != null && arquivoSaida.exists()) {
+			// O metodo tenta executar o seguinte bloco de codigo
 			try {
+				// Abre o arquivo se o Desktop suporta-lo
 				if (Desktop.isDesktopSupported()) {
 					Desktop.getDesktop().open(arquivoSaida);
 				}
 			}
 			catch (IOException e) {
+				// Em caso de excecao, ela eh rastreada na pilha de execucao
 				e.printStackTrace();
 			}	
 		}
 	}
 
+	/*
+     * ***************************************************************
+     * Metodo: excluirArquivo
+     * Funcao: exclui o arquivo contendo os lexemas e tokens do programa
+     * Parametros: ActionEvent event - evento gerado ao clicar no botao
+     * Retorno: void
+     ****************************************************************/
+
 	@FXML
 	private void excluirArquivo(ActionEvent event) {
+		// O metodo tenta executar o seguinte bloco de codigo
 		try {
-			if (arquivoSaida.exists() && arquivoSaida.delete()) {
+			// Volta pra tela inicial se o arquivo nao for nulo, existir e for deletado
+			if (arquivoSaida != null && arquivoSaida.exists() && arquivoSaida.delete()) {
 				voltar(event);
 			}
 		}
 		catch (IOException e) {
+			// Em caso de excecao, ela eh rastreada na pilha de execucao
 			e.printStackTrace();
 		}
 	}
@@ -113,11 +122,17 @@ public class TelaPrincipalController {
      ****************************************************************/
 
 	public void carregarArquivo(File codigo) {
+		// Carrega o arquivo de codigo
 		this.codigo = codigo;
+
+		// Inicializa o analisador lexico
 		analisadorLexico = new AnalisadorLexico(this);
 
 		Platform.runLater(() -> {
+			// Escreve o codigo fonte dentro da interface
 			escreverCodigo();
+
+			// Realiza a analise lexica do codigo
 			realizarAnalise();
 		});
 	}
@@ -131,14 +146,19 @@ public class TelaPrincipalController {
      ****************************************************************/
 
 	private void escreverCodigo() {
+		// O metodo tenta executar as seguintes operacoes de leitura com o BufferedReader
 		try (BufferedReader br = new BufferedReader(new FileReader(codigo))) {
+			// Variavel usada para guardar a linha
 			String linha = "";
 
+			// Enquanto ainda houverem linhas a serem lidas
 			while ((linha = br.readLine()) != null) {
+				// Insere as linhas dentro do txtCodigo mais uma quebra-linha
 				txtCodigo.appendText(linha + "\n");
 			}
 		}
 		catch (IOException e) {
+			// Em caso de excecao, ela eh rastreada na pilha de execucao
 			e.printStackTrace();
 		}
 	}
@@ -152,14 +172,18 @@ public class TelaPrincipalController {
      ****************************************************************/
 
 	private void realizarAnalise() {
+		// Obtem a lista de tuplas a partir da analise lexica
 		ArrayList<TuplaLexema> tuplas = analisadorLexico.analisarCodigo(codigo);
 
-		if (!tuplas.isEmpty()) {
+		// Se tivermos obtido tuplas
+		if (!tuplas.isEmpty()) {			
 			for (TuplaLexema t : tuplas) {
+				// Formata a tupla contendo o lexema e o token, concatenando-a dentro do txtResultados
 				String tupla = "<" + t.getLexema() + ", " + obterSimboloToken(t.getToken()) + ">";
 				txtResultados.appendText(tupla + "\n");
 			}
 
+			// Usa as informacoes obtidas para gerar o arquivo de saida
 			escreverArquivoSaida();
 		}
 	}
@@ -173,19 +197,29 @@ public class TelaPrincipalController {
      ****************************************************************/
 
 	private void escreverArquivoSaida() {
+		// Obtem as tuplas listadas no txtResultados
 		String tuplas = txtResultados.getText();
 
+		// Se a lista de tuplas nao estiver vazia e o arquivo do codigo fonte nao for nulo
 		if (!tuplas.isEmpty() && codigo != null) {
+			// Cria-se um novo arquivo a ser salvo na mesma pasta do arquivo fonte
+			// e com um nome pre-definido
 			String saida = "saida_" + codigo.getName();
 			arquivoSaida = new File(codigo.getParent(), saida);
 
+			// Se o arquivo de saida nao for nulo
 			if (arquivoSaida != null) {
+				// O metodo tenta executar as seguintes operacoes de escrita com um BufferedWriter
 				try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivoSaida))) {
+					// Escreve as tuplas dentro do arquivo
 					bw.write(tuplas);
+
+					// Ativa os botoes para abrir/excluir o arquivo de saida
 					btnAbrirArquivo.setDisable(false);
 					btnExcluirArquivo.setDisable(false);
 				}
 				catch (IOException e) {
+					// Em caso de excecao, ela eh rastreada na pilha de execucao
 					e.printStackTrace();
 				}
 			}
@@ -201,6 +235,8 @@ public class TelaPrincipalController {
      ****************************************************************/
 
 	private String obterSimboloToken(Token token) {
+		// O switch/case retorna o simbolo correspondente ao token
+		// passado como parametro
 		switch (token) {
 			case IDENTIFICADOR:
 				return "id";
@@ -227,6 +263,8 @@ public class TelaPrincipalController {
 				return "simbolo_especial";
 		}
 
+		// Retorna uma string vazia caso nenhuma correspondencia
+		// tiver sido encontrada
 		return "";
 	}
 }

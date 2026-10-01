@@ -19,4 +19,4 @@ begin
 		resultado := x - y;
 
 	writeln(resultado);
-end
+end.
