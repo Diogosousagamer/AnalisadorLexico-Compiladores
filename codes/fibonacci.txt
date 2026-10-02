@@ -1,0 +1,23 @@
+program fibonacci;
+var n, anterior1, anterior2, soma: integer;
+
+begin
+	println("Qual e o n-esimo numero que deseja calcular");
+	read(n);
+
+	anterior1 := 1;
+	anterior2 := 0;
+
+	if n <> 0 and n <> 1 then
+		for i := 2 to n do
+			soma := anterior1 + anterior2;
+			anterior2 := anterior1;
+			anterior1 := soma;
+	else
+		if n = 0 then
+			soma := anterior2;
+		else
+			soma := anterior1;
+
+	println("Numero obtido: " + soma);
+end.	

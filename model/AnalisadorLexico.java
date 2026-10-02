@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 25/08/2026
-* Ultima alteracao...: 30/09/2026
+* Ultima alteracao...: 02/10/2026
 * Nome...............: AnalisadorLexico
 * Funcao.............: Classe que designa as operacoes do analisador lexico de um compilador.
                      
@@ -16,29 +16,26 @@ import controller.TelaPrincipalController;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import javafx.application.Platform;
 
 public class AnalisadorLexico {
 	// Variaveis e instancias
 	private Automato automato;
 	private TelaPrincipalController controller;
-	// private Hashtable<> tabelaSimbolos;
+	private ArrayList<EntradaTabelaSimbolos> tabelaSimbolos;
 	private Hashtable<Integer, Token> listaTokens;
+	private Hashtable<Integer, String> tabelaErros;
 
-	// Arranjo de palavras reservadas
-	private final String[] palavrasReservadas = {"absolute", "array", "begin", "case", "char", "const", "div", 
-		                                  "do", "downto", "else", "end", "external", "file", "for", "forward", 
-		                                  "func", "function", "goto", "if", "implementation", "integer", "interface", 
-		                                  "interrupt", "label", "main", "nil", "of", "packed", "proc", "program", "real", 
-		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
-		                                  "until", "uses", "var", "while", "with"};
+	// Arranjo (tabela) de palavras reservadas
+	private String[] palavrasReservadas;
 
     // Arranjo de operadores logicos
 	private final String[] operadoresLogicos = {"and", "or", "not", "xor"};
 
 	// Arranjo de estados finais
-	private final int[] estadosFinais = {1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
+	private final int[] estadosFinais = {1, 2, 4, 7, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 31};
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: AnalisadorLexico
      * Funcao: cria uma nova instancia da classe AnalisadorLexico
@@ -55,7 +52,7 @@ public class AnalisadorLexico {
 		this.inicializarAutomato();
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: inicializarAutomato
      * Funcao: inicializa os parametros do automato responsavel pela analise lexica
@@ -66,6 +63,17 @@ public class AnalisadorLexico {
 	private void inicializarAutomato() {
 		// Inicializa o automato
 		automato = new Automato();
+
+		// Inicializa a tabela de simbolos
+		tabelaSimbolos = new ArrayList<>();
+
+		// Inicializa a tabela de palavras reservadas
+		palavrasReservadas = new String[]{"absolute", "array", "begin", "case", "char", "const", "div", 
+		                                  "do", "downto", "else", "end", "external", "file", "for", "forward", 
+		                                  "func", "function", "goto", "if", "implementation", "integer", "interface", 
+		                                  "interrupt", "label", "main", "nil", "of", "packed", "proc", "program", "real", 
+		                                  "record", "repeat", "set", "shl", "shr", "string", "then", "to", "type", "unit",
+		                                  "until", "uses", "var", "while", "with"};
 
 		// Sao criados, ao todo, vinte e cinco estados para o automato do analisador lexico
 		criarEstados(32);
@@ -81,9 +89,12 @@ public class AnalisadorLexico {
 
 		// Inicializa os tokens reconhecidos pelo automato do analisador lexico
 		inicializarTokens();
+
+		// Inicializa a tabela de erros lexicos detectados pelo analisador lexico
+		inicializarErros();
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: criarEstados
      * Funcao: cria os estados do automato responsavel pela analise lexica
@@ -98,7 +109,7 @@ public class AnalisadorLexico {
 		}
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: inicializarEstados
      * Funcao: inicializa os estados iniciais e finais 
@@ -117,7 +128,7 @@ public class AnalisadorLexico {
 		}
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: criarAlfabeto
      * Funcao: cria o alfabeto do automato responsavel pela analise lexica
@@ -138,8 +149,8 @@ public class AnalisadorLexico {
 			automato.addSimbolo(c);
 		}
 	}
-
-	/*
+    
+    /*
      * ***************************************************************
      * Metodo: criarTransicoes
      * Funcao: cria as transicoes do automato responsavel pela analise lexica
@@ -332,7 +343,7 @@ public class AnalisadorLexico {
 		automato.addTransicao(30, ' ', 28);
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: inicializarTokens
      * Funcao: inicializa os tokens reconhecidos pelo automato responsavel pela analise lexica
@@ -367,7 +378,35 @@ public class AnalisadorLexico {
 		listaTokens.putIfAbsent(27, Token.OPERADOR_ARITMETICO);
 	}
 
-	/*
+    /*
+     * ***************************************************************
+     * Metodo: analisarCodigo
+     * Funcao: realiza a analise lexica do codigo passado como parametro
+     * Parametros: File f - arquivo a ser analisado
+     * Retorno: ArrayList<TuplaLexema>
+     ****************************************************************/
+
+	private void inicializarErros() {
+		// Inicializa a tabela de erros
+		tabelaErros = new Hashtable<>();
+
+		// Inserem os erros a serem reconhecidos na tabela de erros
+		tabelaErros.putIfAbsent(0, "Simbolo invalido.");
+		tabelaErros.putIfAbsent(3, "Erro de literal numerico.");
+		tabelaErros.putIfAbsent(5, "Erro de literal numerico.");
+		tabelaErros.putIfAbsent(6, "Erro de literal numerico.");
+		tabelaErros.putIfAbsent(8, "Erro de caractere nao fechado.");
+		tabelaErros.putIfAbsent(9, "Erro de caractere nao fechado.");
+		tabelaErros.putIfAbsent(10, "Erro de caractere nao fechado.");
+		tabelaErros.putIfAbsent(12, "Erro de string nao fechada.");
+		tabelaErros.putIfAbsent(13, "Erro de string nao fechada.");
+		tabelaErros.putIfAbsent(14, "Erro de string nao fechada.");
+		tabelaErros.putIfAbsent(28, "Erro de comentario nao fechado.");
+		tabelaErros.putIfAbsent(29, "Erro de comentario nao fechado.");
+		tabelaErros.putIfAbsent(30, "Erro de comentario nao fechado.");
+	}
+
+    /*
      * ***************************************************************
      * Metodo: analisarCodigo
      * Funcao: realiza a analise lexica do codigo passado como parametro
@@ -390,6 +429,8 @@ public class AnalisadorLexico {
 
 		// String usada para a construcao do lexema
 		String lexema = "";
+
+		// 
 		Estado estadoAnterior = automato.getEstadoInicial().copy();
 
 		// Faz uma varredura completa do arquivo
@@ -413,7 +454,6 @@ public class AnalisadorLexico {
 					// Obtem um novo simbolo contido na posicao apontada pelo contador
 					char simbolo = simbolos[contador];
 
-
 					// Incrementa o contador se o caractere for um espaco em branco e o estado
 					// acessado anteriormente for inicial
 					if (Character.isWhitespace(simbolo) && estadoAnterior.ehInicial()) {
@@ -421,29 +461,42 @@ public class AnalisadorLexico {
 						continue;
 					}
 
-					// Executa a funcao de transicao para obter um novo estado atraves do simbolo
-					// computado
+					// Executa a funcao de transicao para obter um novo estado atraves do simbolo computado
 					Estado estado = automato.funcaoDeTransicao(simbolo);
 
-					// Booleanas para verificar se o lexema foi reconhecido, possui um erro lexico ou ainda
-					// precisa ser preenchido
+					// Booleanas para verificar se o lexema foi reconhecido, possui um erro lexico ou ainda precisa ser computado
 					boolean reconhecido = estado == null && estadoAnterior.ehFinal() && !lexema.isEmpty();
-					boolean temErro = estado == null && !estadoAnterior.ehFinal() && !lexema.isEmpty();
+					boolean temErro = estado == null && !estadoAnterior.ehFinal();
 					boolean computarLexema = estado != null;
 
 					// Se o lexema foi reconhecido
 					if (reconhecido) {
-						// Identifica o token, cria uma tupla contendo o lexema e o token
-						// e a adiciona na lista de tuplas
-						Token token = identificarToken(estadoAnterior.getId(), lexema);
-						TuplaLexema par = new TuplaLexema(token, lexema);
-						tuplas.add(par);
+						// Se o lexema nao se tratar de um comentario (estado 31 foi reservado pra reconhecer comentarios)
+						if (estadoAnterior.getId() != 31) {
+							// Identifica o token, cria uma tupla contendo o lexema e o token
+							// e a adiciona na lista de tuplas
+							Token token = identificarToken(estadoAnterior.getId(), lexema);
+							TuplaLexema par = new TuplaLexema(token, lexema);
+							tuplas.add(par);
+
+							// Adiciona o lexema na tabela de simbolos
+							tabelaSimbolos.add(new EntradaTabelaSimbolos(lexema, token, i));
+						}
 
 						// Reseta o lexema e o estado anterior
 						lexema = "";
 						estadoAnterior = automato.getEstadoInicial().copy();
 					}
 					else if (temErro) { // Porem se o lexema possuir algum erro
+						// Identifica o erro gerado
+						final String erro = identificarErro(estadoAnterior.getId());
+
+						// Obtem a linha que contem o lexema defeituoso
+						final int numLinha = linha.contains(lexema) ? i + 1 : i;
+
+						// Exibe o erro encontrado na tela principal do programa se ele nao for nulo e vazio
+						if (erro != null && !erro.isEmpty()) Platform.runLater(() -> controller.exibirErro(numLinha, erro));
+
 						// Reseta o lexema e o estado anterior e incrementa o contador
 						lexema = "";
 						estadoAnterior = automato.getEstadoInicial().copy();
@@ -464,7 +517,7 @@ public class AnalisadorLexico {
 		return tuplas;
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: identificarToken
      * Funcao: identifica o token com base no lexema e estado atuais
@@ -492,7 +545,7 @@ public class AnalisadorLexico {
 		return token;
 	}
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: verificarPalavraReservada
      * Funcao: verifica se o lexema eh uma palavra reservada
@@ -515,7 +568,7 @@ public class AnalisadorLexico {
 		return false;
 	} 
 
-	/*
+    /*
      * ***************************************************************
      * Metodo: verificarOperadorLogico
      * Funcao: verifica se o lexema eh um operador logico
@@ -536,5 +589,17 @@ public class AnalisadorLexico {
 		// Retorna false caso nenhuma correspondencia
 		// tiver sido encontrada
 		return false;
+	}
+
+    /*
+     * ***************************************************************
+     * Metodo: identificarErro
+     * Funcao: retorna o erro encontrado com base no estado atual
+     * Parametros: int estado - estado onde o erro foi emitido
+     * Retorno: String
+     ****************************************************************/
+
+	private String identificarErro(int estado) {
+		return tabelaErros.get(estado);
 	}
 }

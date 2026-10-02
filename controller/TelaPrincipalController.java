@@ -4,7 +4,7 @@
                        Gustavo Henrique Oliveira Fernandes
 * Matricula..........: 202410855 / 202411226 / 202410104
 * Inicio.............: 02/09/2026
-* Ultima alteracao...: 30/09/2026
+* Ultima alteracao...: 02/10/2026
 * Nome...............: TelaPrincipalController
 * Funcao.............: Classe que gerencia as operacoes da TelaPrincipal.
                      
@@ -47,6 +47,14 @@ public class TelaPrincipalController {
 	private AnalisadorLexico analisadorLexico;
 	private File codigo;
 	private File arquivoSaida;
+
+	/*
+     * ***************************************************************
+     * Metodo: voltar
+     * Funcao: volta para a tela inicial (TelaMenu)
+     * Parametros: ActionEvent event - evento gerado ao clicar no botao
+     * Retorno: void
+     ****************************************************************/
 
 	@FXML
 	private void voltar(ActionEvent event) throws IOException {
@@ -111,6 +119,10 @@ public class TelaPrincipalController {
 			// Em caso de excecao, ela eh rastreada na pilha de execucao
 			e.printStackTrace();
 		}
+	}
+
+	public void exibirErro(int linha, String erro) {
+		txtErros.appendText("Linha (" + Integer.toString(linha) + "): " + erro + "\n");
 	}
 
 	/*
