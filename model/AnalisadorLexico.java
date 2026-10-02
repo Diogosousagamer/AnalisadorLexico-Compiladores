@@ -244,15 +244,22 @@ public class AnalisadorLexico {
 		automato.addTransicao(12, ' ', 14);
 		automato.addTransicao(14, ' ', 14);
 
-		// Reconhecimento pra caracteres adicionais: dois pontos, traco e sinal de igualdade
+		// Reconhecimento pra caracteres adicionais: dois pontos, traco, sinal de igualdade e ponto
+		automato.addTransicao(8, ':', 10);
 		automato.addTransicao(12, ':', 14);
 		automato.addTransicao(14, ':', 14);
 
+		automato.addTransicao(8, '=', 10);
 		automato.addTransicao(12, '=', 14);
 		automato.addTransicao(14, '=', 14);
 
+		automato.addTransicao(8, '-', 10);
 		automato.addTransicao(12, '-', 14);
 		automato.addTransicao(14, '-', 14);
+
+		automato.addTransicao(8, '.', 10);
+		automato.addTransicao(12, '.', 14);
+		automato.addTransicao(14, '.', 14);
 
 		// Cria-se uma sequencia de transicoes para todos os simbolos especiais
 		for (char s : simbolosEspeciais.toCharArray()) {
