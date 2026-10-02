@@ -2,7 +2,7 @@ program fibonacci;
 var n, anterior1, anterior2, soma: integer;
 
 begin
-	println("Qual e o n-esimo numero que deseja calcular");
+	writeln("Qual e o n-esimo numero que deseja calcular");
 	read(n);
 
 	anterior1 := 1;
@@ -19,5 +19,5 @@ begin
 		else
 			soma := anterior1;
 
-	println("Numero obtido: " + soma);
+	writeln("Numero obtido: " + soma);
 end.	

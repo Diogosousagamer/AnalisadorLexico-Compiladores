@@ -4,13 +4,13 @@ var x,y,resultado,opcao: integer;
 /* inicio do 
 programa */
 begin 
-	println("Numero X:");
+	writeln("Numero X:");
 	read(x);
 
-	println("Numero Y:");
+	writeln("Numero Y:");
 	read(y);
 
-	println("Deseja realizar: 1 - Soma; 2 - Subtracao");
+	writeln("Deseja realizar: 1 - Soma; 2 - Subtracao");
 	read(opcao);
 
 	if (opcao = 1) then

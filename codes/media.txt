@@ -2,18 +2,18 @@ program media;
 var nota1, nota2, nota3, media: real;
 
 begin
-	println("Digite sua nota na primeira unidade: ");
+	writeln("Digite sua nota na primeira unidade: ");
 	read(nota1);
 	
-	println("Digite sua nota na segunda unidade: ");
+	writeln("Digite sua nota na segunda unidade: ");
 	read(nota2);
 	
-	println("Digite sua nota na terceira unidade: ");
+	writeln("Digite sua nota na terceira unidade: ");
 	read(nota3);
 
 	media := (nota1 + nota2 + nota3) / 3;	
 
-	println("Media total: " + media);
+	writeln("Media total: " + media);
 
 	if media >= 7.0 then
 		println("Aprovado");
